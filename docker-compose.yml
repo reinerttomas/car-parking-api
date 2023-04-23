@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./public:/var/www/html/public
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - '8080:80'
+    networks:
+      - internal
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php-fpm/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - internal
+
+  database:
+    image: mariadb:10.11-jammy
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      TZ: Europe/Prague
+    secrets:
+      - db_root_password
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - internal
+
+networks:
+  internal:
+
+secrets:
+  db_root_password:
+    file: db_root_password.txt
+
+volumes:
+  db-data:
