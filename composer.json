@@ -20,6 +20,7 @@
         "nunomaduro/larastan": "^2.6",
         "phpstan/extension-installer": "^1.3",
         "phpunit/phpunit": "^10.1",
+        "slevomat/coding-standard": "^8.11",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -48,7 +49,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "phpstan": "phpstan analyse -c phpstan.neon --memory-limit 1G"
+        "phpstan": "phpstan analyse -c phpstan.neon --memory-limit 1G",
+        "ccs": "phpcs --standard=ruleset.xml",
+        "fcs": "phpcbf --standard=ruleset.xml"
     },
     "extra": {
         "laravel": {
@@ -62,7 +65,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "minimum-stability": "stable",
