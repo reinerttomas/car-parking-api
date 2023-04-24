@@ -51,7 +51,13 @@
         ],
         "phpstan": "phpstan analyse -c phpstan.neon --memory-limit 1G",
         "ccs": "phpcs --standard=ruleset.xml",
-        "fcs": "phpcbf --standard=ruleset.xml"
+        "fcs": "phpcbf --standard=ruleset.xml",
+        "test": "@php artisan test",
+        "ci": [
+            "@phpstan",
+            "@ccs",
+            "@test"
+        ]
     },
     "extra": {
         "laravel": {
