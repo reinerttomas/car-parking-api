@@ -6,4 +6,6 @@ namespace App\Http\Bag\Api;
 interface Bag
 {
     public function __construct(array $attributes);
+
+    public function attributes(): array;
 }

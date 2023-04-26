@@ -25,9 +25,9 @@ class RegisterRequest extends FormRequest implements Baggable
 
     public function toBag(): RegisterBag
     {
-        /** @var array{name: string, email: string, password: string} $data */
-        $data = $this->validated();
+        /** @var array{name: string, email: string, password: string} $attributes */
+        $attributes = $this->validated();
 
-        return new RegisterBag($data);
+        return new RegisterBag($attributes);
     }
 }
