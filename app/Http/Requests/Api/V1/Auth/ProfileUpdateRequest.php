@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Profile;
+namespace App\Http\Requests\Api\V1\Auth;
 
 use App\Http\Bag\Api\Baggable;
-use App\Http\Bag\Api\V1\Profile\ProfileUpdateBag;
+use App\Http\Bag\Api\V1\Auth\ProfileUpdateBag;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

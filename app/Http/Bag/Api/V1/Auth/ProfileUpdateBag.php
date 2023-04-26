@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Bag\Api\V1\Profile;
+namespace App\Http\Bag\Api\V1\Auth;
 
 use App\Http\Bag\Api\Bag;
 
