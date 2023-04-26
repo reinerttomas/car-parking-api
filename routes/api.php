@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('profile', [Auth\ProfileController::class, 'show']);
-//    Route::put('profile', [Auth\ProfileController::class, 'update']);
+    Route::put('profile', [Auth\ProfileController::class, 'update']);
 });
 
 Route::post('auth/register', Auth\RegisterController::class);
