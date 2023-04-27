@@ -8,3 +8,6 @@ parameters:
     # https://phpstan.org/config-reference#vague-typehints
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
+
+    ignoreErrors:
+        - '#Call to an undefined method Laravel\\Sanctum\\Contracts\\HasAbilities::delete\(\)#'
