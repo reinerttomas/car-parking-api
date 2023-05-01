@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('auth/logout', V1\Auth\LogoutController::class);
 
     Route::apiResource('vehicles', V1\Vehicle\VehicleController::class);
+    Route::get('zones', [V1\Zone\ZoneController::class, 'index']);
 });
 
 Route::post('auth/register', V1\Auth\RegisterController::class);
