@@ -1,41 +1,41 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Auth\ProfileUpdateRequest;
+use App\Http\Requests\Api\V1\Profile\ProfileUpdateRequest;
+use App\Support\Traits\HasAuthenticated;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends Controller
 {
+    use HasAuthenticated;
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function show(Request $request): JsonResponse
     {
         $user = $request->user();
 
         if ($user === null) {
-            throw new \Exception('User not found');
+            throw new Exception('User not found');
         }
 
         return response()->json($user->only('name', 'email'));
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(ProfileUpdateRequest $request): JsonResponse
     {
-        $user = auth()->user();
+        $user = $this->getUser();
 
-        if ($user === null) {
-            throw new \Exception('User not found');
-        }
-
-        $user->update($request->toBag()->attributes());
+        $user->update($request->getAttributes());
 
         return response()->json($user->only('name', 'email'), Response::HTTP_ACCEPTED);
     }

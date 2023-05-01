@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\V1\Auth;
+namespace App\Http\Requests\Api\V1\Profile;
 
 use App\Http\Requests\Api\HasAttributes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class LoginRequest extends FormRequest
+class ProfileUpdateRequest extends FormRequest
 {
     use HasAttributes;
 
@@ -17,8 +18,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore(auth()->user())],
         ];
     }
 }

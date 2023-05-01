@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Auth;
+namespace App\Http\Controllers\Api\V1\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Auth\PasswordUpdateRequest;
+use App\Http\Requests\Api\V1\Profile\PasswordUpdateRequest;
+use App\Support\Traits\HasAuthenticated;
+use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class PasswordUpdateController extends Controller
 {
+    use HasAuthenticated;
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __invoke(PasswordUpdateRequest $request): JsonResponse
     {
-        $user = auth()->user();
+        $attributes = $request->getAttributes();
 
-        if ($user === null) {
-            throw new \Exception('User not found');
-        }
-
-        $user->update($request->toBag()->attributes());
+        $this->getUser()->update([
+            'password' => Hash::make($attributes['password'])
+        ]);
 
         return response()->json([
             'message' => 'Your password has been updated.',

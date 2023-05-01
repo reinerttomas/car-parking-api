@@ -3,23 +3,21 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Support\Traits\HasAuthenticated;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class LogoutController extends Controller
 {
+    use HasAuthenticated;
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __invoke(Request $request): Response
     {
-        $user = auth()->user();
-
-        if ($user === null) {
-            throw new \Exception('User not found');
-        }
-
-        $user->currentAccessToken()->delete();
+        $this->getUser()->currentAccessToken()->delete();
 
         return response()->noContent();
     }

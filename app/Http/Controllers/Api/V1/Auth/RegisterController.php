@@ -7,6 +7,7 @@ use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,7 +15,13 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        $user = User::create($request->toBag()->attributes());
+        $attributes = $request->getAttributes();
+
+        $user = User::create([
+            'name' => $attributes['name'],
+            'email' => $attributes['email'],
+            'password' => Hash::make($attributes['password']),
+        ]);
 
         event(new Registered($user));
 

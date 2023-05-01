@@ -3,9 +3,25 @@ declare(strict_types=1);
 
 namespace App\Http\Bag\Api;
 
-interface Bag
+class Bag
 {
-    public function __construct(array $attributes);
+    final public function __construct(protected array $attributes)
+    {
+    }
 
-    public function attributes(): array;
+    final public static function create(array $attributes): static
+    {
+        return new static($attributes);
+    }
+
+    public function attributes(): array
+    {
+        $this->transform();
+
+        return $this->attributes;
+    }
+
+    protected function transform(): void
+    {
+    }
 }

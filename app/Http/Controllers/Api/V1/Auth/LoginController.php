@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $attributes = $request->toBag()->attributes();
+        $attributes = $request->getAttributes();
 
         $user = User::where('email', $attributes['email'])->first();
 
