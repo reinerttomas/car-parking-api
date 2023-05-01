@@ -22,6 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('vehicles', V1\Vehicle\VehicleController::class);
     Route::get('zones', [V1\Zone\ZoneController::class, 'index']);
+    Route::post('parkings/start', [V1\ParkingController::class, 'start']);
+    Route::get('parkings/{parking}', [V1\ParkingController::class, 'show']);
+    Route::put('parkings/{parking}', [V1\ParkingController::class, 'stop']);
 });
 
 Route::post('auth/register', V1\Auth\RegisterController::class);
