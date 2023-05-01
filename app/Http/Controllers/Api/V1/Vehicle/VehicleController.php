@@ -7,13 +7,14 @@ use App\Http\Requests\Api\V1\Vehicle\StoreVehicleRequest;
 use App\Http\Resources\Api\V1\Vehicle\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class VehicleController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
-        return response()->json(VehicleResource::collection(Vehicle::all()));
+        return VehicleResource::collection(Vehicle::all());
     }
 
     public function store(StoreVehicleRequest $request): JsonResponse
