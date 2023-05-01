@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Api\V1\Parking;
 
 use App\Http\Bag\Api\V1\Parking\StartParkingBag;
-use App\Http\Requests\Api\HasAttributes;
+use App\Http\Requests\Api\HasBag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StartParkingRequest extends FormRequest
 {
-    use HasAttributes;
+    use HasBag;
 
     public function authorize(): bool
     {
@@ -27,8 +27,8 @@ class StartParkingRequest extends FormRequest
         ];
     }
 
-    public function getAttributes(): array
+    public function getData(): array
     {
-        return StartParkingBag::create($this->validated())->attributes();
+        return StartParkingBag::create($this->validated())->toArray();
     }
 }

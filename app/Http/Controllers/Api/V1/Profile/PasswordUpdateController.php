@@ -19,10 +19,10 @@ class PasswordUpdateController extends Controller
      */
     public function __invoke(PasswordUpdateRequest $request): JsonResponse
     {
-        $attributes = $request->getAttributes();
+        $data = $request->getData();
 
         $this->getUser()->update([
-            'password' => Hash::make($attributes['password'])
+            'password' => Hash::make($data['password'])
         ]);
 
         return response()->json([

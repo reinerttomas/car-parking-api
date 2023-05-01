@@ -9,10 +9,10 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @mixin FormRequest
  */
-trait HasAttributes
+trait HasBag
 {
-    public function getAttributes(): array
+    public function getData(): array
     {
-        return Bag::create($this->validated())->attributes();
+        return Bag::create($this->validated())->toArray();
     }
 }

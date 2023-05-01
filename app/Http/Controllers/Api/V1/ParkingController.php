@@ -19,9 +19,9 @@ class ParkingController extends Controller
 
     public function start(StartParkingRequest $request): JsonResource|JsonResponse
     {
-        $attributes = $request->getAttributes();
+        $data = $request->getData();
 
-        if (Parking::active()->where('vehicle_id', $attributes['vehicle_id'])->exists()) {
+        if (Parking::active()->where('vehicle_id', $data['vehicle_id'])->exists()) {
             return response()->json([
                 'errors' => [
                     'general' => [
@@ -31,7 +31,7 @@ class ParkingController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $parking = Parking::create($attributes);
+        $parking = Parking::create($data);
         $parking->load('vehicle', 'zone');
 
         return ParkingResource::make($parking);

@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\Api\V1\Profile;
 
-use App\Http\Requests\Api\HasAttributes;
+use App\Http\Requests\Api\HasBag;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    use HasAttributes;
+    use HasBag;
 
     public function authorize(): bool
     {

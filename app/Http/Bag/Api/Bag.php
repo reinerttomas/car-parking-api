@@ -5,20 +5,20 @@ namespace App\Http\Bag\Api;
 
 class Bag
 {
-    final public function __construct(protected array $attributes)
+    final public function __construct(protected array $data)
     {
     }
 
-    final public static function create(array $attributes): static
+    final public static function create(array $data): static
     {
-        return new static($attributes);
+        return new static($data);
     }
 
-    public function attributes(): array
+    final public function toArray(): array
     {
         $this->transform();
 
-        return $this->attributes;
+        return $this->data;
     }
 
     protected function transform(): void

@@ -35,7 +35,7 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
 
-        $user->update($request->getAttributes());
+        $user->update($request->getData());
 
         return response()->json($user->only('name', 'email'), Response::HTTP_ACCEPTED);
     }

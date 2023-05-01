@@ -15,13 +15,13 @@ class StartParkingBag extends Bag
 
     private function vehicle(): void
     {
-        $this->attributes['vehicle_id'] = $this->attributes['vehicleId'];
-        unset($this->attributes['vehicleId']);
+        $this->data['vehicle_id'] = $this->data['vehicleId'];
+        unset($this->data['vehicleId']);
     }
 
     private function zone(): void
     {
-        $this->attributes['zone_id'] = $this->attributes['zoneId'];
-        unset($this->attributes['zoneId']);
+        $this->data['zone_id'] = $this->data['zoneId'];
+        unset($this->data['zoneId']);
     }
 }

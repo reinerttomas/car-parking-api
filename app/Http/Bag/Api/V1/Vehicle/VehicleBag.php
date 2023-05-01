@@ -9,7 +9,7 @@ class VehicleBag extends Bag
 {
     protected function transform(): void
     {
-        $this->attributes['plate_number'] = $this->attributes['plateNumber'];
-        unset($this->attributes['plateNumber']);
+        $this->data['plate_number'] = $this->data['plateNumber'];
+        unset($this->data['plateNumber']);
     }
 }

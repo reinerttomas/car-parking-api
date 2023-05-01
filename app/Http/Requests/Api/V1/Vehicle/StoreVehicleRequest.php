@@ -3,12 +3,12 @@
 namespace App\Http\Requests\Api\V1\Vehicle;
 
 use App\Http\Bag\Api\V1\Vehicle\VehicleBag;
-use App\Http\Requests\Api\HasAttributes;
+use App\Http\Requests\Api\HasBag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVehicleRequest extends FormRequest
 {
-    use HasAttributes;
+    use HasBag;
 
     public function authorize(): bool
     {
@@ -22,8 +22,8 @@ class StoreVehicleRequest extends FormRequest
         ];
     }
 
-    public function getAttributes(): array
+    public function getData(): array
     {
-        return VehicleBag::create($this->validated())->attributes();
+        return VehicleBag::create($this->validated())->toArray();
     }
 }

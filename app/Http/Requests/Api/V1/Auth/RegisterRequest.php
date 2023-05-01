@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\Api\V1\Auth;
 
-use App\Http\Requests\Api\HasAttributes;
+use App\Http\Requests\Api\HasBag;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
-    use HasAttributes;
+    use HasBag;
 
     public function authorize(): bool
     {
