@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\V1\Parking;
 
 use App\Models\Vehicle;
 use App\Models\Zone;
+use App\Services\ParkingPriceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +24,12 @@ class ParkingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $totalPrice = $this->total_price ?? ParkingPriceService::calculatePrice(
+            $this->zone->price_per_hour,
+            $this->start_at,
+            $this->stop_at
+        );
+
         return [
             'id' => $this->id,
             'zone' => [
@@ -34,7 +41,7 @@ class ParkingResource extends JsonResource
             ],
             'startAt' => $this->start_at->toDateTimeString(),
             'stopAt' => $this->stop_at?->toDateTimeString(),
-            'totalPrice' => $this->total_price,
+            'totalPrice' => $totalPrice,
         ];
     }
 }

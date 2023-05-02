@@ -2,11 +2,20 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property User $user
+ * @property Vehicle $vehicle
+ * @property Zone $zone
+ * @property Carbon $start_at
+ * @property Carbon|null $stop_at
+ * @property int|null $total_price
+ */
 class Parking extends Model
 {
     use HasFactory;
@@ -17,6 +26,11 @@ class Parking extends Model
         'start_at' => 'datetime',
         'stop_at' => 'datetime',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function zone(): BelongsTo
     {
