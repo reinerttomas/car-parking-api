@@ -29,7 +29,6 @@ services:
       MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USERNAME}
       MARIADB_PASSWORD: ${DB_PASSWORD}
-      TZ: Europe/Prague
     secrets:
       - db_root_password
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
