@@ -25,7 +25,7 @@ class ProfileTest extends TestCase
             ]);
     }
 
-    public function testNotAuthenticatedUserCannotGetProfile(): void
+    public function testPublicUserCannotGetProfile(): void
     {
         $response = $this->getJson('/api/v1/profile');
 
