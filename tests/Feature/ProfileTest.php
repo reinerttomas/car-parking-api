@@ -156,7 +156,7 @@ class ProfileTest extends TestCase
             ]);
     }
 
-    public function testUserCanonChangePasswordWhichContainsLessThanEightCharacters(): void
+    public function testUserCannotChangePasswordWhichContainsLessThanEightCharacters(): void
     {
         $user = User::factory()->create();
 
