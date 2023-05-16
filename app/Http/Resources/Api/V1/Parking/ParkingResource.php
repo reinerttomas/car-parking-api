@@ -19,6 +19,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ParkingResource extends JsonResource
 {
+    public static $wrap = null;
+
     /**
      * @return array<string, mixed>
      */
