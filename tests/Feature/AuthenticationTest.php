@@ -19,7 +19,7 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(201)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'accessToken',
             ]);
@@ -30,11 +30,11 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->postJson('/api/v1/auth/login', [
-            'email'    => $user->email,
+            'email' => $user->email,
             'password' => 'wrong_password',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
     }
 
     public function test_user_can_register_with_correct_credentials(): void
@@ -46,13 +46,13 @@ class AuthenticationTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        $response->assertStatus(201)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'accessToken',
             ]);
 
         $this->assertDatabaseHas('users', [
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
     }
@@ -66,10 +66,10 @@ class AuthenticationTest extends TestCase
             'password_confirmation' => 'wrong_password',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertUnprocessable();
 
         $this->assertDatabaseMissing('users', [
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
     }

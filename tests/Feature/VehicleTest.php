@@ -5,14 +5,13 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class VehicleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testUserCanGetTheirOwnVehicles(): void
+    public function test_user_can_get_their_own_vehicles(): void
     {
         $john = User::factory()->create();
         $vehicleForJohn = Vehicle::factory()->create([
@@ -26,19 +25,26 @@ class VehicleTest extends TestCase
 
         $response = $this->actingAs($john)->getJson('/api/v1/vehicles');
 
-        $response->assertStatus(200)
-            ->assertJson(fn(AssertableJson $json) =>
-                $json
-                    ->has('data', 1)
-                    ->has('data.0', fn(AssertableJson $json) =>
-                        $json->where('plateNumber', $vehicleForJohn->plate_number)
-                            ->etc()
-                    )
-            )
+        $response->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'plateNumber',
+                    ]
+                ]
+            ])
+            ->assertJson([
+                'data' => [
+                    [
+                        'plateNumber' => $vehicleForJohn->plate_number,
+                    ]
+                ]
+            ])
             ->assertJsonMissing($vehicleForAdam->toArray());
     }
 
-    public function testUserCanCreateVehicle(): void
+    public function test_user_can_create_vehicle(): void
     {
         $user = User::factory()->create();
 
@@ -46,18 +52,21 @@ class VehicleTest extends TestCase
             'plateNumber' => 'AAA111',
         ]);
 
-        $response->assertStatus(201)
-            ->assertJson(fn(AssertableJson $json) =>
-                $json->where('plateNumber', 'AAA111')
-                    ->etc()
-            );
+        $response->assertCreated()
+            ->assertJsonStructure([
+                'id',
+                'plateNumber',
+            ])
+            ->assertJson([
+                'plateNumber' => 'AAA111',
+            ]);
 
         $this->assertDatabaseHas('vehicles', [
             'plate_number' => 'AAA111',
         ]);
     }
 
-    public function testUseCanUpdateTheirVehicle(): void
+    public function test_user_can_update_their_vehicle(): void
     {
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
@@ -66,25 +75,28 @@ class VehicleTest extends TestCase
             'plateNumber' => 'AAA123',
         ]);
 
-        $response->assertStatus(202)
-            ->assertJson(fn(AssertableJson $json) =>
-                $json->where('plateNumber', 'AAA123')
-                    ->etc()
-            );
+        $response->assertAccepted()
+            ->assertJsonStructure([
+                'id',
+                'plateNumber',
+            ])
+            ->assertJson([
+                'plateNumber' => 'AAA123',
+            ]);
 
         $this->assertDatabaseHas('vehicles', [
             'plate_number' => 'AAA123',
         ]);
     }
 
-    public function testUserCanDeleteTheirVehicle(): void
+    public function test_user_can_delete_their_vehicle(): void
     {
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($user)->deleteJson('/api/v1/vehicles/' . $vehicle->id);
 
-        $response->assertStatus(204);
+        $response->assertNoContent();
 
         $this->assertDatabaseMissing('vehicles', [
             'id' => $vehicle->id,

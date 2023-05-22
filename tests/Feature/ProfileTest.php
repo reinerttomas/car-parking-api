@@ -10,34 +10,30 @@ class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testUserCanGetTheirProfile(): void
+    public function test_user_can_get_their_profile(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->getJson('/api/v1/profile');
 
-        $response->assertStatus(200)
+        $response->assertSuccessful()
             ->assertJsonStructure(['name', 'email'])
-            ->assertJsonCount(2)
-            ->assertJsonFragment([
+            ->assertJson([
                 'name' => $user->name,
-                'email' => $user->email
+                'email' => $user->email,
             ]);
     }
 
-    public function testPublicUserCannotGetProfile(): void
+    public function test_public_user_can_get_their_profile(): void
     {
         $response = $this->getJson('/api/v1/profile');
 
-        $response->assertStatus(401)
+        $response->assertUnauthorized()
             ->assertJsonStructure(['message'])
-            ->assertJsonCount(1)
-            ->assertJson([
-                'message' => 'Unauthenticated.'
-            ]);
+            ->assertJson(['message' => 'Unauthenticated.']);
     }
 
-    public function testUserCanUpdateNameAndEmail(): void
+    public function test_user_can_update_name_and_email(): void
     {
         $user = User::factory()->create();
 
@@ -46,10 +42,9 @@ class ProfileTest extends TestCase
             'email' => 'john.updated@example.com'
         ]);
 
-        $response->assertStatus(202)
+        $response->assertAccepted()
             ->assertJsonStructure(['name', 'email'])
-            ->assertJsonCount(2)
-            ->assertJsonFragment([
+            ->assertJson([
                 'name' => 'John Updated',
                 'email' => 'john.updated@example.com',
             ]);
@@ -60,28 +55,25 @@ class ProfileTest extends TestCase
         ]);
     }
 
-    public function testUserCannotUpdateWithEmptyBody(): void
+    public function test_user_cannot_update_with_empty_body(): void
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->putJson('/api/v1/profile');
 
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
-            ->assertJsonCount(2)
-            ->assertJsonFragment([
-                'errors' => [
-                    'name' => [
-                        'The name field is required.'
-                    ],
-                    'email' => [
-                        'The email field is required.'
-                    ],
-                ]
+            ->assertJsonValidationErrors([
+                'name' => [
+                    'The name field is required.',
+                ],
+                'email' => [
+                    'The email field is required.',
+                ],
             ]);
     }
 
-    public function testUserCannotUpdateWithNotValidEmail(): void
+    public function test_user_cannot_update_with_not_valid_email(): void
     {
         $user = User::factory()->create();
 
@@ -90,19 +82,36 @@ class ProfileTest extends TestCase
             'email' => 'john.doe'
         ]);
 
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
-            ->assertJsonCount(2)
-            ->assertJsonFragment([
-                'errors' => [
-                    'email' => [
-                        'The email field must be a valid email address.'
-                    ],
-                ]
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'The email field must be a valid email address.'
+                ],
             ]);
     }
 
-    public function testUserCanChangePassword(): void
+    public function test_user_cannot_update_email_if_already_taken(): void
+    {
+        User::factory()->create(['email' => 'john.doe@example.com']);
+        $userJohn = User::factory()->create();
+
+
+        $response = $this->actingAs($userJohn)->putJson('/api/v1/profile', [
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com'
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonStructure(['message', 'errors'])
+            ->assertJsonValidationErrors([
+                'email' => [
+                    'The email has already been taken.'
+                ],
+            ]);
+    }
+
+    public function test_user_can_change_password(): void
     {
         $user = User::factory()->create();
 
@@ -115,7 +124,7 @@ class ProfileTest extends TestCase
         $response->assertStatus(202);
     }
 
-    public function testUserCannotChangePasswordWithWrongCurrentPassword(): void
+    public function test_user_cannot_change_password_with_wrong_current_password(): void
     {
         $user = User::factory()->create();
 
@@ -125,19 +134,16 @@ class ProfileTest extends TestCase
             'password_confirmation' => 'password123!',
         ]);
 
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
-            ->assertJsonCount(2)
             ->assertJsonValidationErrors([
                 'current_password' => [
-                    'password' => [
-                        'The password is incorrect.'
-                    ],
+                    'The password is incorrect.'
                 ]
             ]);
     }
 
-    public function testUserCannotChangePasswordWithPasswordConfirmationNotMatching(): void
+    public function test_user_cannot_change_password_with_password_confirmation_not_matching(): void
     {
         $user = User::factory()->create();
 
@@ -147,7 +153,7 @@ class ProfileTest extends TestCase
             'password_confirmation' => '123456789',
         ]);
 
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'password' => [
@@ -156,7 +162,7 @@ class ProfileTest extends TestCase
             ]);
     }
 
-    public function testUserCannotChangePasswordWhichContainsLessThanEightCharacters(): void
+    public function test_user_cannot_change_password_which_contains_less_than_eight_characters(): void
     {
         $user = User::factory()->create();
 
@@ -166,7 +172,7 @@ class ProfileTest extends TestCase
             'password_confirmation' => 'test',
         ]);
 
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'password' => [

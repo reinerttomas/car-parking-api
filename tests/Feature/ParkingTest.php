@@ -13,7 +13,7 @@ class ParkingTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testUserCanStartParking(): void
+    public function test_user_can_start_parking(): void
     {
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
@@ -47,7 +47,7 @@ class ParkingTest extends TestCase
         $this->assertDatabaseCount('parkings', 1);
     }
 
-    public function testUserCanGetOngoingParkingWithCorrectPrice(): void
+    public function test_user_can_get_ongoing_parking_with_correct_price(): void
     {
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
@@ -86,7 +86,7 @@ class ParkingTest extends TestCase
         $this->assertDatabaseCount('parkings', 1);
     }
 
-    public function testUserCanStopParking(): void
+    public function test_user_can_stop_parking(): void
     {
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
