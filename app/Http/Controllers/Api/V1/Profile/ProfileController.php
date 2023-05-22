@@ -8,8 +8,10 @@ use App\Support\Traits\HasAuthenticated;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Group(name: 'Auth')]
 class ProfileController extends Controller
 {
     use HasAuthenticated;

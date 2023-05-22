@@ -8,8 +8,10 @@ use App\Http\Resources\Api\V1\Vehicle\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Group(name: 'Vehicles')]
 class VehicleController extends Controller
 {
     public function index(): AnonymousResourceCollection

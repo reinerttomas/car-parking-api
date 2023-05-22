@@ -10,8 +10,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Group(name: 'Auth')]
 class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse

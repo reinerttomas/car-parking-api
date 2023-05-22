@@ -8,8 +8,10 @@ use App\Support\Traits\HasAuthenticated;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Group(name: 'Auth')]
 class PasswordUpdateController extends Controller
 {
     use HasAuthenticated;

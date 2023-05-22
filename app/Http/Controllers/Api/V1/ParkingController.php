@@ -9,8 +9,10 @@ use App\Models\Parking;
 use App\Services\ParkingPriceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Group(name: 'Parking')]
 class ParkingController extends Controller
 {
     public function show(Parking $parking): JsonResource
