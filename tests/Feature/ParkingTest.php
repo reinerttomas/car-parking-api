@@ -60,6 +60,7 @@ class ParkingTest extends TestCase
 
         $this->travel(2)->hours();
 
+        /** @var Parking $parking */
         $parking = Parking::first();
         $response = $this->actingAs($user)->getJson('/api/v1/parkings/' . $parking->id);
 
@@ -99,10 +100,15 @@ class ParkingTest extends TestCase
 
         $this->travel(2)->hours();
 
+        /** @var Parking $parking */
         $parking = Parking::first();
         $response = $this->actingAs($user)->putJson('/api/v1/parkings/' . $parking->id);
 
+        /** @var Parking $updatedParking */
         $updatedParking = Parking::find($parking->id);
+
+        $this->assertNotNull($updatedParking->stop_at);
+        $this->assertNotNull($updatedParking->total_price);
 
         $response->assertSuccessful()
             ->assertJsonStructure([
