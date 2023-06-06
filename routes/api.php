@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('parkings/{parking}', [V1\ParkingController::class, 'stop']);
 });
 
+Route::get('ping', V1\PingController::class);
 Route::post('auth/register', V1\Auth\RegisterController::class);
 Route::post('auth/login', V1\Auth\LoginController::class);
 Route::get('zones', [V1\Zone\ZoneController::class, 'index']);
