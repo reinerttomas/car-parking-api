@@ -10,6 +10,7 @@ class PingTest extends TestCase
     {
         $response = $this->get('/api/v1/ping');
 
-        $response->assertNoContent();
+        $response->assertSuccessful()
+            ->assertJson(['message' => 'pong']);
     }
 }
