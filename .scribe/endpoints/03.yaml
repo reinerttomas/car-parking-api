@@ -26,19 +26,19 @@ endpoints:
         name: vehicleId
         description: ''
         required: true
-        example: 18
+        example: 6
         type: integer
         custom: []
       zoneId:
         name: zoneId
         description: ''
         required: true
-        example: 7
+        example: 14
         type: integer
         custom: []
     cleanBodyParameters:
-      vehicleId: 18
-      zoneId: 7
+      vehicleId: 6
+      zoneId: 14
     fileParameters: []
     responses: []
     responseFields: []
@@ -68,11 +68,11 @@ endpoints:
         name: parking_id
         description: 'The ID of the parking.'
         required: true
-        example: 2
+        example: 9
         type: integer
         custom: []
     cleanUrlParameters:
-      parking_id: 2
+      parking_id: 9
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -106,11 +106,11 @@ endpoints:
         name: parking_id
         description: 'The ID of the parking.'
         required: true
-        example: 1
+        example: 19
         type: integer
         custom: []
     cleanUrlParameters:
-      parking_id: 1
+      parking_id: 19
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

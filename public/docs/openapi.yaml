@@ -35,11 +35,11 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: officia
+                  example: asperiores
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: maymie.boehm@example.com
+                  example: bartholome49@example.org
               required:
                 - name
                 - email
@@ -63,11 +63,11 @@ paths:
                 current_password:
                   type: string
                   description: ''
-                  example: autem
+                  example: nisi
                 password:
                   type: string
                   description: ''
-                  example: magni
+                  example: tempora
               required:
                 - current_password
                 - password
@@ -91,15 +91,15 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: bccxqtdme
+                  example: ebtmjootntogjtvmdvootfyi
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: hodkiewicz.savanah@example.com
+                  example: zreynolds@example.net
                 password:
                   type: string
                   description: ''
-                  example: et
+                  example: eum
               required:
                 - name
                 - email
@@ -124,11 +124,11 @@ paths:
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: jryan@example.com
+                  example: terry.palma@example.com
                 password:
                   type: string
                   description: ''
-                  example: aliquam
+                  example: eius
               required:
                 - email
                 - password
@@ -137,6 +137,16 @@ paths:
     post:
       summary: ''
       operationId: postApiV1AuthLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/v1/ping:
+    get:
+      summary: ''
+      operationId: getApiV1Ping
       description: ''
       parameters: []
       responses: {  }
@@ -162,11 +172,11 @@ paths:
                 vehicleId:
                   type: integer
                   description: ''
-                  example: 18
+                  example: 6
                 zoneId:
                   type: integer
                   description: ''
-                  example: 7
+                  example: 14
               required:
                 - vehicleId
                 - zoneId
@@ -195,7 +205,7 @@ paths:
         in: path
         name: parking_id
         description: 'The ID of the parking.'
-        example: 2
+        example: 9
         required: true
         schema:
           type: integer
@@ -227,9 +237,14 @@ paths:
                 plateNumber:
                   type: string
                   description: ''
-                  example: consequatur
+                  example: officia
+                description:
+                  type: string
+                  description: ''
+                  example: in
               required:
                 - plateNumber
+                - description
       security: []
   '/api/v1/vehicles/{id}':
     get:
@@ -259,9 +274,14 @@ paths:
                 plateNumber:
                   type: string
                   description: ''
-                  example: quod
+                  example: rerum
+                description:
+                  type: string
+                  description: ''
+                  example: molestias
               required:
                 - plateNumber
+                - description
       security: []
     delete:
       summary: ''
@@ -277,7 +297,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the vehicle.'
-        example: 4
+        example: 17
         required: true
         schema:
           type: integer

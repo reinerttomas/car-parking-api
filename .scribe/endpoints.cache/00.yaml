@@ -58,19 +58,19 @@ endpoints:
         name: name
         description: ''
         required: true
-        example: officia
+        example: asperiores
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: maymie.boehm@example.com
+        example: bartholome49@example.org
         type: string
         custom: []
     cleanBodyParameters:
-      name: officia
-      email: maymie.boehm@example.com
+      name: asperiores
+      email: bartholome49@example.org
     fileParameters: []
     responses: []
     responseFields: []
@@ -104,19 +104,19 @@ endpoints:
         name: current_password
         description: ''
         required: true
-        example: autem
+        example: nisi
         type: string
         custom: []
       password:
         name: password
         description: ''
         required: true
-        example: magni
+        example: tempora
         type: string
         custom: []
     cleanBodyParameters:
-      current_password: autem
-      password: magni
+      current_password: nisi
+      password: tempora
     fileParameters: []
     responses: []
     responseFields: []
@@ -150,27 +150,27 @@ endpoints:
         name: name
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: bccxqtdme
+        example: ebtmjootntogjtvmdvootfyi
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address. Must not be greater than 255 characters.'
         required: true
-        example: hodkiewicz.savanah@example.com
+        example: zreynolds@example.net
         type: string
         custom: []
       password:
         name: password
         description: ''
         required: true
-        example: et
+        example: eum
         type: string
         custom: []
     cleanBodyParameters:
-      name: bccxqtdme
-      email: hodkiewicz.savanah@example.com
-      password: et
+      name: ebtmjootntogjtvmdvootfyi
+      email: zreynolds@example.net
+      password: eum
     fileParameters: []
     responses: []
     responseFields: []
@@ -204,19 +204,19 @@ endpoints:
         name: email
         description: 'Must be a valid email address.'
         required: true
-        example: jryan@example.com
+        example: terry.palma@example.com
         type: string
         custom: []
       password:
         name: password
         description: ''
         required: true
-        example: aliquam
+        example: eius
         type: string
         custom: []
     cleanBodyParameters:
-      email: jryan@example.com
-      password: aliquam
+      email: terry.palma@example.com
+      password: eius
     fileParameters: []
     responses: []
     responseFields: []

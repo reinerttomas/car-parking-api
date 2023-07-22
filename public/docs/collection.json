@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "car-parking-api",
-        "_postman_id": "584a4078-a633-4cfb-82b5-226f91d2122f",
+        "_postman_id": "e45683ac-d86f-4251-aa6d-dae80d41fb47",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -69,7 +69,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"officia\",\"email\":\"maymie.boehm@example.com\"}"
+                            "raw": "{\"name\":\"asperiores\",\"email\":\"bartholome49@example.org\"}"
                         },
                         "description": "",
                         "auth": {
@@ -100,7 +100,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"autem\",\"password\":\"magni\"}"
+                            "raw": "{\"current_password\":\"nisi\",\"password\":\"tempora\"}"
                         },
                         "description": "",
                         "auth": {
@@ -131,7 +131,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"bccxqtdme\",\"email\":\"hodkiewicz.savanah@example.com\",\"password\":\"et\"}"
+                            "raw": "{\"name\":\"ebtmjootntogjtvmdvootfyi\",\"email\":\"zreynolds@example.net\",\"password\":\"eum\"}"
                         },
                         "description": "",
                         "auth": {
@@ -162,7 +162,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"jryan@example.com\",\"password\":\"aliquam\"}"
+                            "raw": "{\"email\":\"terry.palma@example.com\",\"password\":\"eius\"}"
                         },
                         "description": "",
                         "auth": {
@@ -187,6 +187,34 @@
                             "raw": "{{baseUrl}}\/api\/v1\/auth\/logout"
                         },
                         "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/v1\/ping",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/ping",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/ping"
+                        },
+                        "method": "GET",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -233,7 +261,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"vehicleId\":18,\"zoneId\":7}"
+                            "raw": "{\"vehicleId\":6,\"zoneId\":14}"
                         },
                         "description": "",
                         "auth": {
@@ -254,7 +282,7 @@
                                 {
                                     "id": "parking_id",
                                     "key": "parking_id",
-                                    "value": "2",
+                                    "value": "9",
                                     "description": "The ID of the parking."
                                 }
                             ]
@@ -290,7 +318,7 @@
                                 {
                                     "id": "parking_id",
                                     "key": "parking_id",
-                                    "value": "1",
+                                    "value": "19",
                                     "description": "The ID of the parking."
                                 }
                             ]
@@ -370,7 +398,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"plateNumber\":\"consequatur\"}"
+                            "raw": "{\"plateNumber\":\"officia\",\"description\":\"in\"}"
                         },
                         "description": "",
                         "auth": {
@@ -391,7 +419,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "4",
+                                    "value": "17",
                                     "description": "The ID of the vehicle."
                                 }
                             ]
@@ -427,7 +455,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "16",
+                                    "value": "15",
                                     "description": "The ID of the vehicle."
                                 }
                             ]
@@ -445,7 +473,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"plateNumber\":\"quod\"}"
+                            "raw": "{\"plateNumber\":\"rerum\",\"description\":\"molestias\"}"
                         },
                         "description": "",
                         "auth": {
@@ -466,7 +494,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "18",
+                                    "value": "3",
                                     "description": "The ID of the vehicle."
                                 }
                             ]
