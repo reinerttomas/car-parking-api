@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property int $id
  * @property int $plate_number
+ * @property string $description
  */
 class VehicleResource extends JsonResource
 {
@@ -19,6 +20,7 @@ class VehicleResource extends JsonResource
         return [
             'id' => $this->id,
             'plateNumber' => $this->plate_number,
+            'description' => $this->description,
         ];
     }
 }

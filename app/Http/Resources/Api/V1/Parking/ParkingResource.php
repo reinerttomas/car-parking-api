@@ -39,7 +39,8 @@ class ParkingResource extends JsonResource
                 'pricePerHour' => $this->zone->price_per_hour,
             ],
             'vehicle' => [
-                'plateNumber' => $this->vehicle->plate_number
+                'plateNumber' => $this->vehicle->plate_number,
+                'description' => $this->vehicle->description,
             ],
             'startAt' => $this->start_at->toDateTimeString(),
             'stopAt' => $this->stop_at?->toDateTimeString(),

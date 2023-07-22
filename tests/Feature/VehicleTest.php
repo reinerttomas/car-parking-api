@@ -31,6 +31,7 @@ class VehicleTest extends TestCase
                     [
                         'id',
                         'plateNumber',
+                        'description',
                     ]
                 ]
             ])
@@ -38,6 +39,7 @@ class VehicleTest extends TestCase
                 'data' => [
                     [
                         'plateNumber' => $vehicleForJohn->plate_number,
+                        'description' => $vehicleForJohn->description,
                     ]
                 ]
             ])
@@ -50,19 +52,23 @@ class VehicleTest extends TestCase
 
         $response = $this->actingAs($user)->postJson('/api/v1/vehicles', [
             'plateNumber' => 'AAA111',
+            'description' => 'My vehicle',
         ]);
 
         $response->assertCreated()
             ->assertJsonStructure([
                 'id',
                 'plateNumber',
+                'description',
             ])
             ->assertJson([
                 'plateNumber' => 'AAA111',
+                'description' => 'My vehicle',
             ]);
 
         $this->assertDatabaseHas('vehicles', [
             'plate_number' => 'AAA111',
+            'description' => 'My vehicle',
         ]);
     }
 
@@ -73,19 +79,23 @@ class VehicleTest extends TestCase
 
         $response = $this->actingAs($user)->putJson('/api/v1/vehicles/' . $vehicle->id, [
             'plateNumber' => 'AAA123',
+            'description' => 'My car',
         ]);
 
         $response->assertAccepted()
             ->assertJsonStructure([
                 'id',
                 'plateNumber',
+                'description',
             ])
             ->assertJson([
                 'plateNumber' => 'AAA123',
+                'description' => 'My car',
             ]);
 
         $this->assertDatabaseHas('vehicles', [
             'plate_number' => 'AAA123',
+            'description' => 'My car',
         ]);
     }
 

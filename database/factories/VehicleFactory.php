@@ -15,6 +15,7 @@ class VehicleFactory extends Factory
     {
         return [
             'plate_number' => Str::upper(fake()->randomLetter() . fake()->numberBetween(100, 999)),
+            'description' => fake()->sentence(),
         ];
     }
 }

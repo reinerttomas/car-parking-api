@@ -32,7 +32,8 @@ class ParkingTest extends TestCase
                     'pricePerHour',
                 ],
                 'vehicle' => [
-                    'plateNumber'
+                    'plateNumber',
+                    'description',
                 ],
                 'startAt',
                 'stopAt',
@@ -72,7 +73,8 @@ class ParkingTest extends TestCase
                     'pricePerHour',
                 ],
                 'vehicle' => [
-                    'plateNumber'
+                    'plateNumber',
+                    'description',
                 ],
                 'startAt',
                 'stopAt',
@@ -118,7 +120,8 @@ class ParkingTest extends TestCase
                     'pricePerHour',
                 ],
                 'vehicle' => [
-                    'plateNumber'
+                    'plateNumber',
+                    'description',
                 ],
                 'startAt',
                 'stopAt',

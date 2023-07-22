@@ -19,6 +19,7 @@ class StoreVehicleRequest extends FormRequest
     {
         return [
             'plateNumber' => 'required',
+            'description' => 'required',
         ];
     }
 
