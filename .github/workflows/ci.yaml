@@ -55,7 +55,7 @@ jobs:
         run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress
 
       - name: Run Coding Standard
-        run: vendor/bin/phpcs --standard=ruleset.xml -q
+        run: vendor/bin/pint --config pint.json
 
       - name: Run Test
         run: php artisan test --coverage --coverage-clover storage/coverage/coverage.xml
