@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests\Api\V1\Vehicle;
 
-use App\Http\Bag\Api\V1\Vehicle\VehicleBag;
-use App\Http\Requests\Api\HasBag;
+use App\Http\Requests\DataPassedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreVehicleRequest extends FormRequest
+/**
+ * @method validated() array{plateNumber: string, description: string}
+ * @implements DataPassedValidation<StoreVehicleData>
+ */
+final class StoreVehicleRequest extends FormRequest implements DataPassedValidation
 {
-    use HasBag;
+    private StoreVehicleData $data;
 
     public function authorize(): bool
     {
@@ -23,8 +26,13 @@ class StoreVehicleRequest extends FormRequest
         ];
     }
 
-    public function getData(): array
+    protected function passedValidation(): void
     {
-        return VehicleBag::create($this->validated())->toArray();
+        $this->data = new StoreVehicleData(...$this->validated());
+    }
+
+    public function data(): StoreVehicleData
+    {
+        return $this->data;
     }
 }

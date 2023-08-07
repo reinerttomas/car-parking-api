@@ -1,13 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1\Auth;
 
-use App\Http\Requests\Api\HasBag;
+use App\Http\Requests\DataPassedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+/**
+ * @method validated() array{email: string, password: string}
+ * @implements DataPassedValidation<LoginData>
+ */
+final class LoginRequest extends FormRequest implements DataPassedValidation
 {
-    use HasBag;
+    private LoginData $data;
 
     public function authorize(): bool
     {
@@ -20,5 +25,15 @@ class LoginRequest extends FormRequest
             'email' => ['required', 'email'],
             'password' => ['required'],
         ];
+    }
+
+    public function passedValidation(): void
+    {
+        $this->data = new LoginData(...$this->validated());
+    }
+
+    public function data(): LoginData
+    {
+        return $this->data;
     }
 }

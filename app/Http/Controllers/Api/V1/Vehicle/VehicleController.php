@@ -21,7 +21,7 @@ class VehicleController extends Controller
 
     public function store(StoreVehicleRequest $request): JsonResponse
     {
-        $vehicle = Vehicle::create($request->getData());
+        $vehicle = Vehicle::create($request->data()->all());
 
         return response()->json(VehicleResource::make($vehicle), Response::HTTP_CREATED);
     }
@@ -33,7 +33,7 @@ class VehicleController extends Controller
 
     public function update(StoreVehicleRequest $request, Vehicle $vehicle): JsonResponse
     {
-        $vehicle->update($request->getData());
+        $vehicle->update($request->data()->all());
 
         return response()->json(VehicleResource::make($vehicle), Response::HTTP_ACCEPTED);
     }

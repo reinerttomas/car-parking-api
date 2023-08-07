@@ -4,30 +4,21 @@ namespace App\Http\Controllers\Api\V1\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Profile\ProfileUpdateRequest;
-use App\Support\Traits\HasAuthenticated;
+use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Group(name: 'Auth')]
 class ProfileController extends Controller
 {
-    use HasAuthenticated;
-
     /**
      * @throws Exception
      */
-    public function show(Request $request): JsonResponse
+    public function show(): JsonResponse
     {
-        $user = $request->user();
-
-        if ($user === null) {
-            throw new Exception('User not found');
-        }
-
-        return response()->json($user->only('name', 'email'));
+        return response()->json(ProfileResource::make(user()), Response::HTTP_OK);
     }
 
     /**
@@ -35,10 +26,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): JsonResponse
     {
-        $user = $this->getUser();
+        user()->update($request->data()->all());
 
-        $user->update($request->getData());
-
-        return response()->json($user->only('name', 'email'), Response::HTTP_ACCEPTED);
+        return response()->json(ProfileResource::make(user()), Response::HTTP_ACCEPTED);
     }
 }

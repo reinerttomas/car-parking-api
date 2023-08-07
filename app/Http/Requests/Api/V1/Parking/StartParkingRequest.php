@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests\Api\V1\Parking;
 
-use App\Http\Bag\Api\V1\Parking\StartParkingBag;
-use App\Http\Requests\Api\HasBag;
+use App\Http\Requests\DataPassedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StartParkingRequest extends FormRequest
+/**
+ * @method validated() array{vehicleId: int, zoneId: int}
+ * @implements DataPassedValidation<StartParkingData>
+ */
+final class StartParkingRequest extends FormRequest implements DataPassedValidation
 {
-    use HasBag;
+    private StartParkingData $data;
 
     public function authorize(): bool
     {
@@ -27,8 +30,13 @@ class StartParkingRequest extends FormRequest
         ];
     }
 
-    public function getData(): array
+    protected function passedValidation(): void
     {
-        return StartParkingBag::create($this->validated())->toArray();
+        $this->data = new StartParkingData(...$this->validated());
+    }
+
+    public function data(): StartParkingData
+    {
+        return $this->data;
     }
 }

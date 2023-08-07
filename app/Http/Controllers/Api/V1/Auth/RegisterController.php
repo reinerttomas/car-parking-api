@@ -18,12 +18,10 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        $data = $request->getData();
-
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $request->data()->name,
+            'email' => $request->data()->email,
+            'password' => Hash::make($request->data()->password),
         ]);
 
         event(new Registered($user));

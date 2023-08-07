@@ -11,4 +11,3 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined method Laravel\\Sanctum\\Contracts\\HasAbilities::delete\(\)#'
-        - '#Parameter \#1 \$data of static method App\\Http\\Bag\\Api\\Bag::create\(\) expects array, mixed given#'

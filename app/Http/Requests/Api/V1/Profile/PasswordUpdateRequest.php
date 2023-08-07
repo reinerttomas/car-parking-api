@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests\Api\V1\Profile;
 
-use App\Http\Requests\Api\HasBag;
+use App\Http\Requests\DataPassedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class PasswordUpdateRequest extends FormRequest
+/**
+ * @implements DataPassedValidation<PasswordUpdateData>
+ */
+final class PasswordUpdateRequest extends FormRequest implements DataPassedValidation
 {
-    use HasBag;
+    private PasswordUpdateData $data;
 
     public function authorize(): bool
     {
@@ -21,5 +24,15 @@ class PasswordUpdateRequest extends FormRequest
             'current_password' => ['required', 'current_password'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
+    }
+
+    protected function passedValidation(): void
+    {
+        $this->data = new PasswordUpdateData((string)$this->validated('password'));
+    }
+
+    public function data(): PasswordUpdateData
+    {
+        return $this->data;
     }
 }

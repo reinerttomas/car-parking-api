@@ -18,11 +18,9 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $data = $request->getData();
+        $user = User::where('email', $request->data()->email)->first();
 
-        $user = User::where('email', $data['email'])->first();
-
-        if (!$user || Hash::check($data['password'], $user->password) === false) {
+        if (!$user || Hash::check($request->data()->password, $user->password) === false) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
