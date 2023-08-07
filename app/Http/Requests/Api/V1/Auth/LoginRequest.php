@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @method validated() array{email: string, password: string}
+ *
  * @implements DataPassedValidation<LoginData>
  */
 final class LoginRequest extends FormRequest implements DataPassedValidation

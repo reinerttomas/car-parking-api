@@ -37,7 +37,7 @@ class ParkingTest extends TestCase
                 ],
                 'startAt',
                 'stopAt',
-                'totalPrice'
+                'totalPrice',
             ])
             ->assertJson([
                 'startAt' => now()->toDateTimeString(),
@@ -63,7 +63,7 @@ class ParkingTest extends TestCase
 
         /** @var Parking $parking */
         $parking = Parking::first();
-        $response = $this->actingAs($user)->getJson('/api/v1/parkings/' . $parking->id);
+        $response = $this->actingAs($user)->getJson('/api/v1/parkings/'.$parking->id);
 
         $response->assertSuccessful()
             ->assertJsonStructure([
@@ -78,7 +78,7 @@ class ParkingTest extends TestCase
                 ],
                 'startAt',
                 'stopAt',
-                'totalPrice'
+                'totalPrice',
             ])
             ->assertJson([
                 'startAt' => now()->subHours(2)->toDateTimeString(),
@@ -104,7 +104,7 @@ class ParkingTest extends TestCase
 
         /** @var Parking $parking */
         $parking = Parking::first();
-        $response = $this->actingAs($user)->putJson('/api/v1/parkings/' . $parking->id);
+        $response = $this->actingAs($user)->putJson('/api/v1/parkings/'.$parking->id);
 
         /** @var Parking $updatedParking */
         $updatedParking = Parking::find($parking->id);
@@ -125,7 +125,7 @@ class ParkingTest extends TestCase
                 ],
                 'startAt',
                 'stopAt',
-                'totalPrice'
+                'totalPrice',
             ])
             ->assertJson([
                 'startAt' => $updatedParking->start_at->toDateTimeString(),

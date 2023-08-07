@@ -20,7 +20,7 @@ class Parking extends Model
 {
     use HasFactory;
 
-    protected $fillable  = ['user_id', 'vehicle_id', 'zone_id', 'start_at', 'stop_at', 'total_price'];
+    protected $fillable = ['user_id', 'vehicle_id', 'zone_id', 'start_at', 'stop_at', 'total_price'];
 
     protected $casts = [
         'start_at' => 'datetime',

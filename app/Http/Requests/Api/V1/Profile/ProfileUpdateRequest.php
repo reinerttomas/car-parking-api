@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 
 /**
  * @method validated() array{name: string, email: string}
+ *
  * @implements DataPassedValidation<ProfileUpdateData>
  */
 final class ProfileUpdateRequest extends FormRequest implements DataPassedValidation

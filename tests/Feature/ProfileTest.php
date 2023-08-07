@@ -39,7 +39,7 @@ class ProfileTest extends TestCase
 
         $response = $this->actingAs($user)->putJson('/api/v1/profile', [
             'name' => 'John Updated',
-            'email' => 'john.updated@example.com'
+            'email' => 'john.updated@example.com',
         ]);
 
         $response->assertAccepted()
@@ -79,14 +79,14 @@ class ProfileTest extends TestCase
 
         $response = $this->actingAs($user)->putJson('/api/v1/profile', [
             'name' => 'John Doe',
-            'email' => 'john.doe'
+            'email' => 'john.doe',
         ]);
 
         $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'email' => [
-                    'The email field must be a valid email address.'
+                    'The email field must be a valid email address.',
                 ],
             ]);
     }
@@ -96,17 +96,16 @@ class ProfileTest extends TestCase
         User::factory()->create(['email' => 'john.doe@example.com']);
         $userJohn = User::factory()->create();
 
-
         $response = $this->actingAs($userJohn)->putJson('/api/v1/profile', [
             'name' => 'John Doe',
-            'email' => 'john.doe@example.com'
+            'email' => 'john.doe@example.com',
         ]);
 
         $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'email' => [
-                    'The email has already been taken.'
+                    'The email has already been taken.',
                 ],
             ]);
     }
@@ -138,8 +137,8 @@ class ProfileTest extends TestCase
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'current_password' => [
-                    'The password is incorrect.'
-                ]
+                    'The password is incorrect.',
+                ],
             ]);
     }
 
@@ -157,7 +156,7 @@ class ProfileTest extends TestCase
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'password' => [
-                    'The password field confirmation does not match.'
+                    'The password field confirmation does not match.',
                 ],
             ]);
     }
@@ -176,7 +175,7 @@ class ProfileTest extends TestCase
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'password' => [
-                    'The password field must be at least 8 characters.'
+                    'The password field must be at least 8 characters.',
                 ],
             ]);
     }

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @method validated() array{plateNumber: string, description: string}
+ *
  * @implements DataPassedValidation<StoreVehicleData>
  */
 final class StoreVehicleRequest extends FormRequest implements DataPassedValidation

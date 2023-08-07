@@ -23,14 +23,14 @@ class KeyCaseConverterTest extends TestCase
                 'country' => 'USA',
                 'geo' => [
                     'lat' => -37.3159,
-                    'lng' => 81.1496
+                    'lng' => 81.1496,
                 ],
             ],
             'company' => [
                 'name' => 'Acme Corporation',
                 'position' => 'Software Engineer',
                 'department' => 'Engineering',
-                'catch_phrase' => 'Multi-layered client-server neural-net'
+                'catch_phrase' => 'Multi-layered client-server neural-net',
             ],
         ];
 
@@ -101,14 +101,14 @@ class KeyCaseConverterTest extends TestCase
                 'country' => 'USA',
                 'geo' => [
                     'lat' => -37.3159,
-                    'lng' => 81.1496
+                    'lng' => 81.1496,
                 ],
             ],
             'company' => [
                 'name' => 'Acme Corporation',
                 'position' => 'Software Engineer',
                 'department' => 'Engineering',
-                'catchPhrase' => 'Multi-layered client-server neural-net'
+                'catchPhrase' => 'Multi-layered client-server neural-net',
             ],
         ], KeyCaseConverter::toCamelCase($data));
     }

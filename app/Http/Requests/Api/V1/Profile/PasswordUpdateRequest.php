@@ -28,7 +28,10 @@ final class PasswordUpdateRequest extends FormRequest implements DataPassedValid
 
     protected function passedValidation(): void
     {
-        $this->data = new PasswordUpdateData((string)$this->validated('password'));
+        /** @var string $password */
+        $password = $this->validated('password');
+
+        $this->data = new PasswordUpdateData($password);
     }
 
     public function data(): PasswordUpdateData

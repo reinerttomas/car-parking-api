@@ -14,7 +14,7 @@ class VehicleFactory extends Factory
     public function definition(): array
     {
         return [
-            'plate_number' => Str::upper(fake()->randomLetter() . fake()->numberBetween(100, 999)),
+            'plate_number' => Str::upper(fake()->randomLetter().fake()->numberBetween(100, 999)),
             'description' => fake()->sentence(),
         ];
     }

@@ -22,7 +22,7 @@ class ZoneTest extends TestCase
                     '*' => [
                         'id',
                         'name',
-                        'pricePerHour'
+                        'pricePerHour',
                     ],
                 ],
             ])
@@ -43,7 +43,7 @@ class ZoneTest extends TestCase
                         'name' => 'Red Zone',
                         'pricePerHour' => 300,
                     ],
-                ]
+                ],
             ]);
     }
 }

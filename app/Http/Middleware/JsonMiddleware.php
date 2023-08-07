@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class JsonMiddleware
 {
     /**
-     * @param Request $request
-     * @param Closure(Request): (Response) $next
-     * @return Response
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {

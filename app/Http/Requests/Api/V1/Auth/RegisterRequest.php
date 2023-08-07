@@ -8,6 +8,7 @@ use Illuminate\Validation\Rules\Password;
 
 /**
  * @method validated() array{name: string, email: string, password: string}
+ *
  * @implements DataPassedValidation<RegisterData>
  */
 final class RegisterRequest extends FormRequest implements DataPassedValidation

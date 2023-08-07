@@ -27,7 +27,7 @@ class ParkingController extends Controller
                 'errors' => [
                     'general' => [
                         'Can\'t start parking twice using same vehicle. Please stop currently active parking.',
-                    ]
+                    ],
                 ],
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }

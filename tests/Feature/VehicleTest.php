@@ -15,12 +15,12 @@ class VehicleTest extends TestCase
     {
         $john = User::factory()->create();
         $vehicleForJohn = Vehicle::factory()->create([
-            'user_id' => $john->id
+            'user_id' => $john->id,
         ]);
 
         $adam = User::factory()->create();
         $vehicleForAdam = Vehicle::factory()->create([
-            'user_id' => $adam->id
+            'user_id' => $adam->id,
         ]);
 
         $response = $this->actingAs($john)->getJson('/api/v1/vehicles');
@@ -32,16 +32,16 @@ class VehicleTest extends TestCase
                         'id',
                         'plateNumber',
                         'description',
-                    ]
-                ]
+                    ],
+                ],
             ])
             ->assertJson([
                 'data' => [
                     [
                         'plateNumber' => $vehicleForJohn->plate_number,
                         'description' => $vehicleForJohn->description,
-                    ]
-                ]
+                    ],
+                ],
             ])
             ->assertJsonMissing($vehicleForAdam->toArray());
     }
@@ -77,7 +77,7 @@ class VehicleTest extends TestCase
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->putJson('/api/v1/vehicles/' . $vehicle->id, [
+        $response = $this->actingAs($user)->putJson('/api/v1/vehicles/'.$vehicle->id, [
             'plateNumber' => 'AAA123',
             'description' => 'My car',
         ]);
@@ -104,7 +104,7 @@ class VehicleTest extends TestCase
         $user = User::factory()->create();
         $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->deleteJson('/api/v1/vehicles/' . $vehicle->id);
+        $response = $this->actingAs($user)->deleteJson('/api/v1/vehicles/'.$vehicle->id);
 
         $response->assertNoContent();
 
