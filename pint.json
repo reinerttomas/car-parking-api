@@ -1,6 +1,7 @@
 {
     "preset": "laravel",
     "rules": {
-        "blank_line_after_opening_tag": false
+        "blank_line_after_opening_tag": false,
+        "nullable_type_declaration_for_default_null_value": true
     }
 }
