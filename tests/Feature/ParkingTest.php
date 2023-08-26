@@ -135,4 +135,97 @@ class ParkingTest extends TestCase
 
         $this->assertDatabaseCount('parkings', 1);
     }
+
+    public function test_user_can_get_their_active_parkings(): void
+    {
+        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+
+        $john = User::factory()->create();
+        $vehicleForJohn = Vehicle::factory()->create([
+            'user_id' => $john->id,
+        ]);
+        $parkingForJohn = Parking::factory()->create([
+            'user_id' => $john->id,
+            'vehicle_id' => $vehicleForJohn->id,
+            'zone_id' => $zone->id,
+        ]);
+
+        $adam = User::factory()->create();
+        $vehicleForAdam = Vehicle::factory()->create([
+            'user_id' => $adam->id,
+        ]);
+        $parkingForAdam = Parking::factory()->create([
+            'user_id' => $adam->id,
+            'vehicle_id' => $vehicleForAdam->id,
+            'zone_id' => $zone->id,
+        ]);
+
+        $response = $this->actingAs($john)->getJson('/api/v1/parkings');
+
+        $response->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'zone' => [
+                            'name',
+                            'pricePerHour',
+                        ],
+                        'vehicle' => [
+                            'plateNumber',
+                            'description',
+                        ],
+                        'startAt',
+                        'stopAt',
+                        'totalPrice',
+                    ],
+                ],
+            ])
+            ->assertJson([
+                'data' => [
+                    [
+                        'zone' => [
+                            'name' => $zone->name,
+                            'pricePerHour' => $zone->price_per_hour,
+                        ],
+                        'vehicle' => [
+                            'plateNumber' => $vehicleForJohn->plate_number,
+                            'description' => $vehicleForJohn->description,
+                        ],
+                        'startAt' => $parkingForJohn->start_at->toDateTimeString(),
+                        'stopAt' => $parkingForJohn->stop_at,
+                        'totalPrice' => $parkingForJohn->total_price,
+                    ],
+                ],
+            ])
+            ->assertJsonMissing($parkingForAdam->toArray());
+    }
+
+    public function test_user_cannot_start_parking_twice_using_same_vehicle(): void
+    {
+        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+
+        $user = User::factory()->create();
+        $vehicle = Vehicle::factory()->create([
+            'user_id' => $user->id,
+        ]);
+        $parking = Parking::factory()->create([
+            'user_id' => $user->id,
+            'vehicle_id' => $vehicle->id,
+            'zone_id' => $zone->id,
+        ]);
+
+        $response = $this->actingAs($user)->postJson('/api/v1/parkings/start', [
+            'vehicleId' => $vehicle->id,
+            'zoneId' => $zone->id,
+        ]);
+
+        $response->assertUnprocessable()
+            ->assertJsonStructure(['errors'])
+            ->assertJsonValidationErrors([
+                'general' => [
+                    'Can\'t start parking twice using same vehicle. Please stop currently active parking.',
+                ],
+            ]);
+    }
 }
