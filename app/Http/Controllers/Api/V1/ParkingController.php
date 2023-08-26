@@ -8,6 +8,7 @@ use App\Http\Resources\Api\V1\Parking\ParkingResource;
 use App\Models\Parking;
 use App\Services\ParkingPriceService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 #[Group(name: 'Parking')]
 class ParkingController extends Controller
 {
+    public function index(): AnonymousResourceCollection
+    {
+        return ParkingResource::collection(Parking::with('vehicle', 'zone')->active()->get());
+    }
+
     public function show(Parking $parking): JsonResource
     {
         return ParkingResource::make($parking);

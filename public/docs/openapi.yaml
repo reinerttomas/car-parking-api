@@ -35,11 +35,11 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: asperiores
+                  example: fuga
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: bartholome49@example.org
+                  example: swaniawski.lafayette@example.net
               required:
                 - name
                 - email
@@ -63,11 +63,11 @@ paths:
                 current_password:
                   type: string
                   description: ''
-                  example: nisi
+                  example: aliquid
                 password:
                   type: string
                   description: ''
-                  example: tempora
+                  example: libero
               required:
                 - current_password
                 - password
@@ -91,15 +91,15 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ebtmjootntogjtvmdvootfyi
+                  example: wzwnpgzzqfa
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: zreynolds@example.net
+                  example: hermann.porter@example.org
                 password:
                   type: string
                   description: ''
-                  example: eum
+                  example: sit
               required:
                 - name
                 - email
@@ -124,11 +124,11 @@ paths:
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: terry.palma@example.com
+                  example: ylebsack@example.net
                 password:
                   type: string
                   description: ''
-                  example: eius
+                  example: veniam
               required:
                 - email
                 - password
@@ -172,11 +172,11 @@ paths:
                 vehicleId:
                   type: integer
                   description: ''
-                  example: 6
+                  example: 11
                 zoneId:
                   type: integer
                   description: ''
-                  example: 14
+                  example: 19
               required:
                 - vehicleId
                 - zoneId
@@ -205,7 +205,7 @@ paths:
         in: path
         name: parking_id
         description: 'The ID of the parking.'
-        example: 9
+        example: 20
         required: true
         schema:
           type: integer
@@ -237,11 +237,11 @@ paths:
                 plateNumber:
                   type: string
                   description: ''
-                  example: officia
+                  example: rerum
                 description:
                   type: string
                   description: ''
-                  example: in
+                  example: mollitia
               required:
                 - plateNumber
                 - description
@@ -274,11 +274,11 @@ paths:
                 plateNumber:
                   type: string
                   description: ''
-                  example: rerum
+                  example: reiciendis
                 description:
                   type: string
                   description: ''
-                  example: molestias
+                  example: ut
               required:
                 - plateNumber
                 - description
@@ -297,7 +297,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the vehicle.'
-        example: 17
+        example: 19
         required: true
         schema:
           type: integer
