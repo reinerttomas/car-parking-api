@@ -18,7 +18,23 @@ class ParkingController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return ParkingResource::collection(Parking::with('vehicle', 'zone')->active()->get());
+        $parkings = Parking::active()
+            ->with(['vehicle', 'zone'])
+            ->latest('start_at')
+            ->get();
+
+        return ParkingResource::collection($parkings);
+    }
+
+    public function history(): AnonymousResourceCollection
+    {
+        $parkings = Parking::stopped()
+            ->with(['vehicle' => fn ($q) => $q->withTrashed()])
+            ->with('zone')
+            ->latest('stop_at')
+            ->get();
+
+        return ParkingResource::collection($parkings);
     }
 
     public function show(Parking $parking): JsonResource
@@ -39,9 +55,8 @@ class ParkingController extends Controller
         }
 
         $parking = Parking::create($request->data()->all());
-        $parking->load('vehicle', 'zone');
 
-        return ParkingResource::make($parking);
+        return ParkingResource::make($parking->load('vehicle', 'zone'));
     }
 
     public function stop(Parking $parking): JsonResource

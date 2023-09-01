@@ -209,7 +209,7 @@ class ParkingTest extends TestCase
         $vehicle = Vehicle::factory()->create([
             'user_id' => $user->id,
         ]);
-        $parking = Parking::factory()->create([
+        Parking::factory()->create([
             'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
             'zone_id' => $zone->id,
@@ -225,6 +225,67 @@ class ParkingTest extends TestCase
             ->assertJsonValidationErrors([
                 'general' => [
                     'Can\'t start parking twice using same vehicle. Please stop currently active parking.',
+                ],
+            ]);
+    }
+
+    public function test_user_can_get_their_parkings_history_with_deleted_vehicles(): void
+    {
+        $user = User::factory()->create();
+        $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
+        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+
+        $this->actingAs($user)->postJson('/api/v1/parkings/start', [
+            'vehicleId' => $vehicle->id,
+            'zoneId' => $zone->id,
+        ]);
+
+        $this->travel(2)->hours();
+
+        /** @var Parking $parking */
+        $parking = Parking::first();
+        $this->actingAs($user)->putJson('/api/v1/parkings/'.$parking->id);
+
+        /** @var Parking $stoppedParking */
+        $stoppedParking = Parking::find($parking->id);
+        $vehicle->delete();
+
+        $response = $this->actingAs($user)->getJson('/api/v1/parkings/history');
+
+        $response->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'zone' => [
+                            'name',
+                            'pricePerHour',
+                        ],
+                        'vehicle' => [
+                            'plateNumber',
+                            'description',
+                        ],
+                        'startAt',
+                        'stopAt',
+                        'totalPrice',
+                    ],
+                ],
+            ])
+            ->assertJson([
+                'data' => [
+                    [
+                        'zone' => [
+                            'name' => $zone->name,
+                            'pricePerHour' => $zone->price_per_hour,
+                        ],
+                        'vehicle' => [
+                            'plateNumber' => $vehicle->plate_number,
+                            'description' => $vehicle->description,
+                        ],
+                        'startAt' => $stoppedParking->start_at->toDateTimeString(),
+                        'stopAt' => $stoppedParking->stop_at,
+                        'totalPrice' => $stoppedParking->total_price,
+                    ],
                 ],
             ]);
     }

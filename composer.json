@@ -16,6 +16,7 @@
         "knuckleswtf/scribe": "^4.19",
         "laravel/pint": "^1.10",
         "laravel/sail": "^1.18",
+        "laravel/telescope": "^4.16",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "nunomaduro/larastan": "^2.6",
@@ -64,7 +65,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         },
         "phpstan": {
             "includes": [
