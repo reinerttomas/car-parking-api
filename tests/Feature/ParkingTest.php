@@ -15,9 +15,11 @@ class ParkingTest extends TestCase
 
     public function test_user_can_start_parking(): void
     {
+        $zone = Zone::factory()->create();
         $user = User::factory()->create();
-        $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+        $vehicle = Vehicle::factory()
+            ->for($user)
+            ->create();
 
         $response = $this->actingAs($user)->postJson('/api/v1/parkings/start', [
             'vehicleId' => $vehicle->id,
@@ -50,20 +52,20 @@ class ParkingTest extends TestCase
 
     public function test_user_can_get_ongoing_parking_with_correct_price(): void
     {
+        $zone = Zone::factory()->create();
         $user = User::factory()->create();
-        $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
-
-        $this->actingAs($user)->postJson('/api/v1/parkings/start', [
-            'vehicleId' => $vehicle->id,
-            'zoneId' => $zone->id,
-        ]);
+        $vehicle = Vehicle::factory()
+            ->for($user)
+            ->create();
+        $parking = Parking::factory()
+            ->for($user)
+            ->for($vehicle)
+            ->for($zone)
+            ->create();
 
         $this->travel(2)->hours();
 
-        /** @var Parking $parking */
-        $parking = Parking::first();
-        $response = $this->actingAs($user)->getJson('/api/v1/parkings/'.$parking->id);
+        $response = $this->actingAs($user)->getJson('/api/v1/parkings/' . $parking->id);
 
         $response->assertSuccessful()
             ->assertJsonStructure([
@@ -91,20 +93,20 @@ class ParkingTest extends TestCase
 
     public function test_user_can_stop_parking(): void
     {
+        $zone = Zone::factory()->create();
         $user = User::factory()->create();
-        $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
-
-        $this->actingAs($user)->postJson('/api/v1/parkings/start', [
-            'vehicleId' => $vehicle->id,
-            'zoneId' => $zone->id,
-        ]);
+        $vehicle = Vehicle::factory()
+            ->for($user)
+            ->create();
+        $parking = Parking::factory()
+            ->for($user)
+            ->for($vehicle)
+            ->for($zone)
+            ->create();
 
         $this->travel(2)->hours();
 
-        /** @var Parking $parking */
-        $parking = Parking::first();
-        $response = $this->actingAs($user)->putJson('/api/v1/parkings/'.$parking->id);
+        $response = $this->actingAs($user)->putJson('/api/v1/parkings/' . $parking->id);
 
         /** @var Parking $updatedParking */
         $updatedParking = Parking::find($parking->id);
@@ -138,27 +140,27 @@ class ParkingTest extends TestCase
 
     public function test_user_can_get_their_active_parkings(): void
     {
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+        $zone = Zone::factory()->create();
 
         $john = User::factory()->create();
-        $vehicleForJohn = Vehicle::factory()->create([
-            'user_id' => $john->id,
-        ]);
-        $parkingForJohn = Parking::factory()->create([
-            'user_id' => $john->id,
-            'vehicle_id' => $vehicleForJohn->id,
-            'zone_id' => $zone->id,
-        ]);
+        $vehicleForJohn = Vehicle::factory()
+            ->for($john)
+            ->create();
+        $parkingForJohn = Parking::factory()
+            ->for($john)
+            ->for($vehicleForJohn)
+            ->for($zone)
+            ->create();
 
         $adam = User::factory()->create();
-        $vehicleForAdam = Vehicle::factory()->create([
-            'user_id' => $adam->id,
-        ]);
-        $parkingForAdam = Parking::factory()->create([
-            'user_id' => $adam->id,
-            'vehicle_id' => $vehicleForAdam->id,
-            'zone_id' => $zone->id,
-        ]);
+        $vehicleForAdam = Vehicle::factory()
+            ->for($adam)
+            ->create();
+        $parkingForAdam = Parking::factory()
+            ->for($adam)
+            ->for($vehicleForAdam)
+            ->for($zone)
+            ->create();
 
         $response = $this->actingAs($john)->getJson('/api/v1/parkings');
 
@@ -203,17 +205,16 @@ class ParkingTest extends TestCase
 
     public function test_user_cannot_start_parking_twice_using_same_vehicle(): void
     {
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
-
+        $zone = Zone::factory()->create();
         $user = User::factory()->create();
-        $vehicle = Vehicle::factory()->create([
-            'user_id' => $user->id,
-        ]);
-        Parking::factory()->create([
-            'user_id' => $user->id,
-            'vehicle_id' => $vehicle->id,
-            'zone_id' => $zone->id,
-        ]);
+        $vehicle = Vehicle::factory()
+            ->for($user)
+            ->create();
+        Parking::factory()
+            ->for($user)
+            ->for($vehicle)
+            ->for($zone)
+            ->create();
 
         $response = $this->actingAs($user)->postJson('/api/v1/parkings/start', [
             'vehicleId' => $vehicle->id,
@@ -231,24 +232,20 @@ class ParkingTest extends TestCase
 
     public function test_user_can_get_their_parkings_history_with_deleted_vehicles(): void
     {
+        $zone = Zone::factory()->create();
         $user = User::factory()->create();
-        $vehicle = Vehicle::factory()->create(['user_id' => $user->id]);
-        $zone = Zone::factory()->create(['price_per_hour' => 100]);
+        $vehicle = Vehicle::factory()
+            ->trashed()
+            ->for($user)
+            ->create();
+        $parking = Parking::factory()->stopped()
+            ->for($user)
+            ->for($vehicle)
+            ->for($zone)
+            ->create();
 
-        $this->actingAs($user)->postJson('/api/v1/parkings/start', [
-            'vehicleId' => $vehicle->id,
-            'zoneId' => $zone->id,
-        ]);
-
-        $this->travel(2)->hours();
-
-        /** @var Parking $parking */
-        $parking = Parking::first();
-        $this->actingAs($user)->putJson('/api/v1/parkings/'.$parking->id);
-
-        /** @var Parking $stoppedParking */
-        $stoppedParking = Parking::find($parking->id);
-        $vehicle->delete();
+        $this->assertNotNull($parking->stop_at);
+        $this->assertNotNull($parking->total_price);
 
         $response = $this->actingAs($user)->getJson('/api/v1/parkings/history');
 
@@ -282,11 +279,60 @@ class ParkingTest extends TestCase
                             'plateNumber' => $vehicle->plate_number,
                             'description' => $vehicle->description,
                         ],
-                        'startAt' => $stoppedParking->start_at->toDateTimeString(),
-                        'stopAt' => $stoppedParking->stop_at,
-                        'totalPrice' => $stoppedParking->total_price,
+                        'startAt' => $parking->start_at->toDateTimeString(),
+                        'stopAt' => $parking->stop_at,
+                        'totalPrice' => $parking->total_price,
                     ],
                 ],
+            ]);
+    }
+
+    public function test_user_can_get_stopped_parking_with_deleted_vehicle(): void
+    {
+        $zone = Zone::factory()->create();
+        $user = User::factory()->create();
+        $vehicle = Vehicle::factory()
+            ->trashed()
+            ->for($user)
+            ->create();
+        $parking = Parking::factory()->stopped()
+            ->for($user)
+            ->for($vehicle)
+            ->for($zone)
+            ->create();
+
+        $this->assertNotNull($parking->stop_at);
+        $this->assertNotNull($parking->total_price);
+
+        $response = $this->actingAs($user)->getJson('/api/v1/parkings/' . $parking->id);
+
+        $response->assertSuccessful()
+            ->assertJsonStructure([
+                'id',
+                'zone' => [
+                    'name',
+                    'pricePerHour',
+                ],
+                'vehicle' => [
+                    'plateNumber',
+                    'description',
+                ],
+                'startAt',
+                'stopAt',
+                'totalPrice',
+            ])
+            ->assertJson([
+                'zone' => [
+                    'name' => $zone->name,
+                    'pricePerHour' => $zone->price_per_hour,
+                ],
+                'vehicle' => [
+                    'plateNumber' => $vehicle->plate_number,
+                    'description' => $vehicle->description,
+                ],
+                'startAt' => $parking->start_at->toDateTimeString(),
+                'stopAt' => $parking->stop_at,
+                'totalPrice' => $parking->total_price,
             ]);
     }
 }
