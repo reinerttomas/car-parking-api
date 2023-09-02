@@ -14,7 +14,7 @@ class ZoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Zone '.fake()->unique()->numberBetween(1, 100),
+            'name' => 'Zone ' . fake()->unique()->numberBetween(1, 100),
             'price_per_hour' => fake()->numberBetween(100, 1000),
         ];
     }

@@ -25,7 +25,7 @@ final class StartParkingRequest extends FormRequest implements DataPassedValidat
             'vehicleId' => [
                 'required',
                 'integer',
-                'exists:vehicles,id,deleted_at,NULL,user_id,'.auth()->id(),
+                'exists:vehicles,id,deleted_at,NULL,user_id,' . auth()->id(),
             ],
             'zoneId' => ['required', 'integer', 'exists:zones,id'],
         ];
