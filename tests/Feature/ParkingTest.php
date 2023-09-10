@@ -83,7 +83,7 @@ class ParkingTest extends TestCase
                 'totalPrice',
             ])
             ->assertJson([
-                'startAt' => now()->subHours(2)->toDateTimeString(),
+                'startAt' => $parking->start_at->toDateTimeString(),
                 'stopAt' => null,
                 'totalPrice' => $zone->price_per_hour * 2,
             ]);
