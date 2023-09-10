@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Profile\PasswordUpdateRequest;
+use App\Http\Data\Api\V1\Profile\PasswordUpdateData;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -16,10 +16,10 @@ class PasswordUpdateController extends Controller
     /**
      * @throws Exception
      */
-    public function __invoke(PasswordUpdateRequest $request): JsonResponse
+    public function __invoke(PasswordUpdateData $data): JsonResponse
     {
         user()->update([
-            'password' => Hash::make($request->data()->password),
+            'password' => Hash::make($data->password),
         ]);
 
         return response()->json([
