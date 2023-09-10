@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Data\Api\V1\Parking\StartParkingData;
 use App\Http\Requests\Api\V1\Parking\StartParkingRequest;
 use App\Http\Resources\Api\V1\Parking\ParkingResource;
 use App\Models\Parking;
@@ -46,9 +47,9 @@ class ParkingController extends Controller
         return ParkingResource::make($parking);
     }
 
-    public function start(StartParkingRequest $request): JsonResource|JsonResponse
+    public function start(StartParkingData $data): JsonResource|JsonResponse
     {
-        if (Parking::active()->where('vehicle_id', $request->data()->vehicleId)->exists()) {
+        if (Parking::active()->where('vehicle_id', $data->vehicleId)->exists()) {
             return response()->json([
                 'errors' => [
                     'general' => [
@@ -58,7 +59,7 @@ class ParkingController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $parking = Parking::create($request->data()->all());
+        $parking = Parking::create($data->toArray());
 
         return ParkingResource::make($parking->load('vehicle', 'zone'));
     }
