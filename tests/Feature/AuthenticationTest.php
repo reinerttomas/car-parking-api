@@ -42,8 +42,8 @@ class AuthenticationTest extends TestCase
         $response = $this->postJson('/api/v1/auth/register', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'Passwd123!',
+            'password_confirmation' => 'Passwd123!',
         ]);
 
         $response->assertCreated()
@@ -52,6 +52,31 @@ class AuthenticationTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('users', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+        ]);
+    }
+
+    public function test_user_cannot_register_with_weak_password(): void
+    {
+        $response = $this->postJson('/api/v1/auth/register', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $response->assertJsonStructure(['errors'])
+            ->assertJsonValidationErrors([
+                'password' => [
+                    'The password field must be at least 10 characters.',
+                    'The password field must contain at least one uppercase and one lowercase letter.',
+                    'The password field must contain at least one symbol.',
+                    'The password field must contain at least one number.',
+                ],
+            ]);
+
+        $this->assertDatabaseMissing('users', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);

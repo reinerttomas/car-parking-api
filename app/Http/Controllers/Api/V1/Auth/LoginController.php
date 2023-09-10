@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Data\Api\V1\Auth\LoginData;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Resources\Api\V1\Auth\AccessTokenResource;
 use App\Models\User;
@@ -18,9 +19,11 @@ class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->data()->email)->first();
+        $loginData = LoginData::from($request);
 
-        if (! $user || Hash::check($request->data()->password, $user->password) === false) {
+        $user = User::where('email', $loginData->email)->first();
+
+        if (! $user || Hash::check($loginData->password, $user->password) === false) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);

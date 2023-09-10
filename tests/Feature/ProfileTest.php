@@ -24,7 +24,7 @@ class ProfileTest extends TestCase
             ]);
     }
 
-    public function test_public_user_can_get_their_profile(): void
+    public function test_public_user_cannot_get_their_profile(): void
     {
         $response = $this->getJson('/api/v1/profile');
 
@@ -52,6 +52,30 @@ class ProfileTest extends TestCase
         $this->assertDatabaseHas('users', [
             'name' => 'John Updated',
             'email' => 'john.updated@example.com',
+        ]);
+    }
+
+    public function test_user_can_update_only_name(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'john.doe@example.com',
+        ]);
+
+        $response = $this->actingAs($user)->putJson('/api/v1/profile', [
+            'name' => 'John Updated',
+            'email' => 'john.doe@example.com',
+        ]);
+
+        $response->assertAccepted()
+            ->assertJsonStructure(['name', 'email'])
+            ->assertJson([
+                'name' => 'John Updated',
+                'email' => 'john.doe@example.com',
+            ]);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'John Updated',
+            'email' => 'john.doe@example.com',
         ]);
     }
 
@@ -115,12 +139,12 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->putJson('/api/v1/password', [
-            'current_password' => 'password',
-            'password' => 'password123!',
-            'password_confirmation' => 'password123!',
+            'currentPassword' => 'password',
+            'password' => 'Passwd123!',
+            'password_confirmation' => 'Passwd123!',
         ]);
 
-        $response->assertStatus(202);
+        $response->assertAccepted();
     }
 
     public function test_user_cannot_change_password_with_wrong_current_password(): void
@@ -128,15 +152,15 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->putJson('/api/v1/password', [
-            'current_password' => 'wrong-password',
-            'password' => 'password123!',
-            'password_confirmation' => 'password123!',
+            'currentPassword' => 'wrong-password',
+            'password' => 'Passwd123!',
+            'password_confirmation' => 'Passwd123!',
         ]);
 
         $response->assertUnprocessable()
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
-                'current_password' => [
+                'currentPassword' => [
                     'The password is incorrect.',
                 ],
             ]);
@@ -147,9 +171,9 @@ class ProfileTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->putJson('/api/v1/password', [
-            'current_password' => 'password',
-            'password' => 'password123',
-            'password_confirmation' => '123456789',
+            'currentPassword' => 'password',
+            'password' => 'Password123!',
+            'password_confirmation' => 'HelloWorld123!',
         ]);
 
         $response->assertUnprocessable()
@@ -161,7 +185,7 @@ class ProfileTest extends TestCase
             ]);
     }
 
-    public function test_user_cannot_change_password_which_contains_less_than_eight_characters(): void
+    public function test_user_cannot_change_password_which_is_weak(): void
     {
         $user = User::factory()->create();
 
@@ -175,7 +199,10 @@ class ProfileTest extends TestCase
             ->assertJsonStructure(['message', 'errors'])
             ->assertJsonValidationErrors([
                 'password' => [
-                    'The password field must be at least 8 characters.',
+                    'The password field must be at least 10 characters.',
+                    'The password field must contain at least one uppercase and one lowercase letter.',
+                    'The password field must contain at least one symbol.',
+                    'The password field must contain at least one number.',
                 ],
             ]);
     }

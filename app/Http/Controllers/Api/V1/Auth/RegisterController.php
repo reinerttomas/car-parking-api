@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Data\Api\V1\Auth\RegisterData;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Http\Resources\Api\V1\Auth\AccessTokenResource;
 use App\Models\User;
@@ -18,10 +19,12 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request): JsonResponse
     {
+        $registerData = RegisterData::from($request);
+
         $user = User::create([
-            'name' => $request->data()->name,
-            'email' => $request->data()->email,
-            'password' => Hash::make($request->data()->password),
+            'name' => $registerData->name,
+            'email' => $registerData->email,
+            'password' => Hash::make($registerData->password),
         ]);
 
         event(new Registered($user));

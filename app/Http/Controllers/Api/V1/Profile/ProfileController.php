@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\Profile\ProfileUpdateRequest;
+use App\Http\Data\Api\V1\Profile\ProfileUpdateData;
 use App\Http\Resources\Api\V1\Profile\ProfileResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -24,9 +24,9 @@ class ProfileController extends Controller
     /**
      * @throws Exception
      */
-    public function update(ProfileUpdateRequest $request): JsonResponse
+    public function update(ProfileUpdateData $data): JsonResponse
     {
-        user()->update($request->data()->all());
+        user()->update($data->all());
 
         return response()->json(ProfileResource::make(user()), Response::HTTP_ACCEPTED);
     }
