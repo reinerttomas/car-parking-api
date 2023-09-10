@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Data\Api\V1\Parking\StartParkingData;
-use App\Http\Requests\Api\V1\Parking\StartParkingRequest;
 use App\Http\Resources\Api\V1\Parking\ParkingResource;
 use App\Models\Parking;
 use App\Services\ParkingPriceService;
